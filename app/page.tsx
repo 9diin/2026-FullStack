@@ -59,13 +59,15 @@ function App() {
     // 의존성 배열을 통해 언제 실행할 지를 결정할 수 있습니다.
 
     return (
-        <div>
-            <input type="text" onChange={(event) => setName(event.target.value)} placeholder="이름을 입력하세요." />
-            <input type="text" onChange={(event) => setNickname(event.target.value)} placeholder="별명을 입력하세요." />
-            <br />
-            <p>이름: {name}</p> <br />
-            <p>별명: {nickname}</p>
-        </div>
+        <>
+            <div>
+                <input type="text" onChange={(event) => setName(event.target.value)} placeholder="이름을 입력하세요." />
+                <input type="text" onChange={(event) => setNickname(event.target.value)} placeholder="별명을 입력하세요." />
+                <br />
+                <p>이름: {name}</p> <br />
+                <p>별명: {nickname}</p>
+            </div>
+        </>
     )
 }
 
