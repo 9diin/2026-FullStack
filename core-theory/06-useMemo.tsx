@@ -51,6 +51,9 @@ function App() {
     // - useEffect는 "언제 실행할 것인가?"를 제어합니다. (렌더링 후 부수 효과 처리)
     // - useMemo는 "무엇을 다시 계산할 것인가?"를 최적화합니다. (렌더링 중 불필요한 연산 방지)
 
+    // - useCallback은 함수를 기억 / 메모이제이션된 함수 / 이벤트 핸들러 재사용 / useCallback(fn, deps)
+    // - useMemo는 값(결과)를 기억 / 메모이제이션 된 값 / 연산량이 많은 계산 결과 저장 / useMemo(fn, deps)
+
     return (
         <div>
             <h2>useMemo 학습 예제</h2>

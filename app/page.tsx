@@ -1,96 +1,54 @@
 "use client"
 
-// 1. useCallback이란 무엇인가?
-// useCallback은 함수를 메모이제이션(Memoization) 하기 위한 Hook입니다.
-// 즉, "한 번 만든 함수를 재사용 할 수 있도록 기억하는 기능"입니다.
+// 1. useRef란 무엇인가?
+// - useRef는 리액트 컴포넌트 안에서 "특정 박스(저장 공간)"를 만들어주는 훅입니다.
+// - useState와 비슷하게 값을 저장할 수 있지만, 가장 큰 결정적 차이가 있습니다.
 
-// 컴포넌트가 다시 렌더링(re-render) 될 때마다 내부에 선언된 함수들도 새로 만들어집니다.
-// 리액트는 함수가 새로 만들어지면 "새로운 참조(reference)값"으로 인식하기 때문에,
-// 이 불필요한 재생성과 렌더링 문제를 방지하기 위해 useCallback을 사용합니다.
+import { useRef, useState } from "react"
 
-import { Button } from "@/components/ui"
-import { useCallback, memo, useState } from "react"
+// ⭐️ useState vs useRef 결정적 차이
+// 1) useState: 값이 바뀌면 컴포넌트가 다시 렌더링(re-render)됩니다.
+// 2) useRef: 값이 바뀌어도 컴포넌트가 다시 렌더링 되지 않습니다.
 
-// * React.memo로 컴포넌트를 감싸줍니다.
-const ChildComponent = memo(({ name, onClick }: { name: string; onClick: () => void }) => {
-    console.log("자식 컴포넌트가 렌더링 되었습니다.")
+// ⭐️ useRef의 대표적인 두 가지 용도
+// 1) DOM 요소에 직접 접근할 때 (예: input에 자동으로 포커스 주기, 스크롤 위치 제어 등)
+// 2) 렌더링과 상관없이 "값"을 기억해두고 싶을 때 (예: 타이머 ID, 몇 번 렌더링되었는지 카운트 등)
+function App() {
+    const [renderCount, setRenderCount] = useState<number>(0)
+    // 2. DOM 조작을 위한 useRef 예제
+    // 초기값을 null로 설정하고, 나중에 HTML 태그의 ref 속성과 연결합니다.
+    const inputRef = useRef<HTMLInputElement>(null)
+    const handleFocus = () => {
+        // inputRef.current는 연결된 실제 HTML input 요소를 가리킵니다.
+        // .focus()를 통해 해당 input에 강제로 커서를 깜박이게 만듭니다.
+        if (inputRef.current) {
+            inputRef.current.focus()
+            inputRef.current.style.backgroundColor = "yellow" // 스타일도 직접 변경 가능!
+        }
+    }
+
+    // 3. 렌더링과 무관한 값 저장을 위한 useRef 예제 (변수처럼 활용)
+    // 이 값이 바뀔 때는 화면이 리렌더링되지 않습니다.
+    const clickCountRef = useRef<number>(0)
+    const handleIncreaseRefClick = () => {
+        clickCountRef.current += 1
+        console.log(`useRef 값 증가: ${clickCountRef.current} (하지만 화면은 안 바뀜!)`)
+    }
+
     return (
         <div>
-            <p>안녕, {name}</p>
-            <Button onClick={onClick}>자식 컴포넌트 버튼</Button>
+            <h2>1. DOM 요소에 접근하기 (Focus)</h2>
+            {/* ref 속성에 inputRef를 연결합니다. */}
+            <input ref={inputRef} type="text" placeholder="버튼을 누르면 집중됩니다." />
+            <button onClick={handleFocus}>input에 포커스 주기</button>
+
+            <h2>2. useState vs useRef 값 변화 비교</h2>
+            {/* state를 바꾸는 버튼 (화면이 리렌더링됨) */}
+            <button onClick={() => setRenderCount(renderCount + 1)}>전체 리렌더링 유발하기 (현재: {renderCount})</button>
+
+            {/* useRef 값을 바꾸는 버튼 (화면은 안 바뀜) */}
+            <button onClick={handleIncreaseRefClick}>useRef 값만 1 증가시키기 (콘솔 확인)</button>
         </div>
-    )
-})
-
-function App() {
-    const [count, setCount] = useState<number>(0)
-    const [text, setText] = useState<string>("")
-
-    // 2. useCallback의 기본 사용법
-    // useCallback은 다음과 같은 형태로 사용합니다.
-
-    // - 첫 번째 인자: 기억하고 싶은 함수 (() => {...})
-    // - 두 번째 인자(배열): 이 배열 안에 포함된 값이 바뀔 때만 함수를 새로 생성 ([])
-
-    // 즉, 의존성 배열이 비어 있다면
-    // useCallback은 컴포넌트가 처음 렌더링될 때 한 번만 함수를 생성하고,
-    // 그 이후에는 컴포넌트가 몇 번 리렌더링 되든 같은 함수를 계속 재사용합니다.
-    const memorizedFunction = useCallback(() => {
-        // 실행할 코드
-        console.log("메모이제이션된 함수가 실행되었습니다.")
-    }, []) // 의존성 배열이 비어 있음
-
-    // 3. 왜 useCallback이 필요한가?
-    // 컴포넌트가 렌더링 될 때마다 매번 새로운 함수가 만들어지면, 다음과 같은 문제가 생깁니다.
-    // - 성능 낭비: 불필요한 함수 재생성 반복
-    // - 불필요한 하위 컴포넌트 렌더링:
-    //   props로 전달된 함수가 매번 새로 만들어지므로,
-    //   React.memo 등으로 최적화된 하위 컴포넌트도 "props가 바뀌었네?" 하고 오인하여
-    //   불필요하게 다시 렌더링되게 됩니다.
-
-    // useCallback은 이 문제를 해결합니다.
-    // 즉, "이 함수는 이전 렌더링 때와 같으니 새로 만들지 마라"고 리액트에게 알려주는 것입니다.
-
-    // * React.memo란 무엇인가?
-    // 리액트에서는 기본적으로 부모 컴포넌트가 다시 렌더링되면, 그 안에 있는 모든 자식 컴포넌트들도 무조건 함께 리렌더링됩니다.
-    // (자식 컴포넌트의 내용이 바뀌지 않았음에도 불구하고)
-    // 이때, 자식 컴포넌트를 React.memo로 감싸주면, "전달받은 props가 이전과 똑같다면 리렌더링을 건너뛰고(Skip)
-    // 이전에 그려둔 화면을 그대로 재사용해라"라고 리액트에게 명령할 수 있습니다.
-
-    // * 목적: 불필요한 렌더링을 막아 성능을 최적화하기 위함
-
-    // 부모 컴포넌트가 렌더링 될 때마다 handleClick 함수가 새로 만들어짐
-    const handleClick = () => console.log("클릭")
-    // 부모 컴포넌트가 리렌더링될 때 함수가 새로 만들어지면,
-    // React.memo는 "Props로 받은 함수가 옛날과 달라졌네? 다른 컴포넌트인가?" 하고 착각해서
-    // 자식 컴포넌트를 또 렌더링해 버립니다.
-
-    // 해결책: 이때 함수를 useCallback으로 감싸서 주소값이 안 바뀌게 고정해 주면,
-    // React.memo가 완벽하게 작동하여 불필요한 렌더링을 막을 수 있게 됩니다!
-    return (
-        <>
-            <div>
-                App
-                <h1>카운트: {count}</h1>
-                {/* 버튼을 누르면 state가 바뀌면서 App 컴포넌트가 리렌더링 됩니다. */}
-                <Button onClick={() => setCount(count + 1)}>카운트 증가 (+1)</Button>
-                {/* 부모의 count가 바뀌어도 props로 넘겨주는 name은 "철수"로 똑같습니다. */}
-                <ChildComponent name="철수" onClick={handleClick} />
-                {/* 동작 방식 */}
-                {/* 버튼을 눌러서 Parent 컴포넌트의 count가 바뀌면 부모는 리렌더링됩니다.  */}
-                {/* 이때 ChildComponent도 원래라면 같이 리렌더링되어야 하지만,  */}
-                {/* React.memo가 "name props가 '철수'로 예전과 똑같네?"라고 판단하여  */}
-                {/* 리렌더링을 생략하고 콘솔 창에 "자식 컴포넌트가 렌더링되었습니다!"도 찍히지 않습니다. */}
-            </div>
-            <div>
-                <h1>useCallback 학습 예제</h1>
-                <p>
-                    입력값: <strong>{text}</strong>
-                </p>
-                <input type="text" placeholder="텍스트를 입력하세요." value={text} onChange={(event) => setText(event.target.value)} />
-                <ChildComponent name="철수" onClick={memorizedFunction} />
-            </div>
-        </>
     )
 }
 
