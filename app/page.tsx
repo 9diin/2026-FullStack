@@ -1,77 +1,84 @@
 "use client"
 
-// 1. useRef란 무엇인가?
-// - useRef는 리액트 컴포넌트 안에서 "특정 박스(저장 공간)"을 만들어주는 훅입니다.
-// - useState와 비슷하게 값을 저장할 수 있지만, 가장 큰 결정적 차이가 있습니다.
+// 1. useMemo - 불필요한 계산을 피하는 최적화 전략
+// - 컴포넌트가 렌더링 될 때마다ㅏ 단순한 콘솔 출력이 실행되는 것은 성능에 큰 지장을 주지 않습니다.
+// - 그러나 렌더링할 때마다 복잡하고 무거운 계산을 수행해야 하는 로직이 있다면 성능 저하가 발생할 수 있습니다.
+// - 이때 사용할 수 있는 훅이 useMemo 입니다.
 
-// ⭐️ useState vs useRef의 결정적 차이
-// 1) useState: 값이 바뀌면 컴포넌트가 다시 렌더링(re-render)됩니다.
-// 2) useRef: 값이 바뀌어도 컴포넌트가 다시 렌더링 되지 않습니다.
+// 1.1 useMemo의 개념
+// - useMemo는 "값(value)를 기억(memoization)"하기 위한 훅입니다.
+// - 즉, 이전에 계산된 결과값을 저장해 두었다가, 의존하는 값이 바뀌지 않았다면
+//   다시 계산하지 않고 기존 결과값을 그대로 재사용합니다.
 
-// ⭐️ useRef의 대표적인 두 가지 용도
-// 1) DOM 요소에 직접 접근할 때, (예: input에 자동으로 포커스 주기, 스크롤 위치 제어 등)
-// 2) 렌더링과 상관없이 "값"을 기억해두고 싶을 때 (예: 타이머 ID, 몇 번 렌더링되었는지 카운트 등)
-
-import { useRef, useState } from "react"
 import { Button } from "@/components/ui"
+import { useMemo, useState } from "react"
+
+// useMemo는 다음과 같은 형태로 사용합니다.
+/*
+const memorizedValue = useMemo(() => {
+    // 연산이 오래 걸리는 복잡한 작업
+    return 계산된 값
+}, [의존성배열])
+*/
+
+// - 여기서 의존성 배열 안에 명시한 값이 변경될 때만 '계산할 값'을 다시 계산합니다.
+// - 의존성 배열이 비어 있다면([]), 컴포넌트가 처음 렌더링될 때 딱 한 번만 계산하고 그 값을 계속 재사용합니다.
+
+const getAverage = (numbers: number[]) => {
+    console.log("[무거운 연산] - 평균 값을 계산 중입니다.")
+
+    if (numbers.length === 0) return 0
+
+    const sum = numbers.reduce((acc, cur) => acc + cur, 0)
+    return sum / numbers.length
+}
 
 function App() {
-    const [renderCount, setRenderCount] = useState<number>(0)
-    // 2. DOM 조작을 위한 useRef 예제
-    // 초기값을 null로 설정하고, 나중에 HTML 태그의 ref 속성과 연결합니다.
-    const inputRef = useRef<HTMLInputElement>(null)
-    const fileInputRef = useRef<HTMLInputElement>(null)
+    const [list, setList] = useState<number[]>([])
+    const [inputValue, setInputValue] = useState<string>("")
+    const [otherState, setOtherState] = useState<boolean>(false) // 리렌더링 유발용 state
 
-    const handleFocus = () => {
-        // inputRef.current는 연결된 실제 HTML input 요소를 가리킵니다.
-        // .focus()를 통해 해당 input에 강제로 커서를 깜박이게 한다던 지, 스타일링을 한다던 지 등 통제를 할 수 있습니다.
-
-        if (inputRef.current) {
-            inputRef.current.focus()
-            inputRef.current.style.backgroundColor = "yellow"
-        }
+    const handleInsert = () => {
+        const nextList = list.concat(parseInt(inputValue) || 0)
+        setList(nextList)
+        setInputValue("") // input field 초기화
     }
 
-    const handleUpload = () => {
-        console.log(fileInputRef.current)
-        // ref를 통해 파일 input 엘리먼트의 click() 메서드 호출
-        if (fileInputRef.current) {
-            fileInputRef.current.click()
-        }
-    }
-
-    const handleFileChange = (event: any) => {
-        const files = event.target.files
-
-        if (files.length > 0) {
-            console.log("선택된 파일:", files[0].name)
-            alert(`선택된 파일: ${files[0].name}`)
-        }
-    }
-
-    const clickCountRef = useRef<number>(0)
-    const handleIncreaseRefClick = () => {
-        clickCountRef.current += 1
-        console.log(`useRef 값 증가: ${clickCountRef.current} 하지만 화면은 안 바뀜!`)
-    }
+    // 1.2 평균 값 계산 예제와 useMemo 적용
+    // - 만약 이 평균 계산을 useMemo 없이 그냥 호출했다면,
+    //   아래의 '다른 상태 변경(otherState)' 버튼 누를 때마다
+    //   리스트가 전혀 변하지 않았음에도 getAverage 함수가 매번 다시 실행되어 성능을 갉아먹습니다.
+    // - 따라서 useMemo를 이용하여 [list]가 변경될 때만 평균을 다시 계산하도록 최적화합니다.
+    const average = useMemo(() => getAverage(list), [list])
 
     return (
-        <div>
-            <h2>1. DOM 요소에 접근하기 (Focus)</h2>
-            {/* ref 속성에 inputRef를 연결합니다. */}
-            <input type="text" ref={inputRef} placeholder="버튼을 누르면 활성화됩니다." />
-            <Button onClick={handleFocus}>input에 포커스 주기</Button>
+        <>
+            <div>
+                <h2>useMemo 학습 예제</h2>
+                {/* 1. 숫자 입력 및 등록 영역 */}
+                <input type="number" value={inputValue} onChange={(event) => setInputValue(event.target.value)} placeholder="숫자를 입력하세요." />
+                <Button onClick={handleInsert}>등록</Button>
+            </div>
 
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
-            <Button onClick={handleUpload}>파일 업로드</Button>
+            {/* 2. 등록된 숫자 리스트 */}
+            <ul>
+                {list.map((item, index) => {
+                    return <li key={index}>{item}</li>
+                })}
+            </ul>
 
-            <h2>2. useState vs useRef 값 변화 비교</h2>
-            {/* state를 바꾸는 버튼 (화면이 리렌더링 됨) */}
-            <Button onClick={() => setRenderCount(renderCount + 1)}>전체 리렌더링 유발하기 (현재: {renderCount})</Button>
+            {/* 3. useMemo로 최적화된 연산 결과 출력 */}
+            <div>
+                <b>평균 값: {average}</b>
+            </div>
 
-            {/* useRef 값을 바꾸는 버튼 (화면이 안 바뀜) */}
-            <Button onClick={handleIncreaseRefClick}>useRef 값만 1 증가시키키 (콘솔 확인)</Button>
-        </div>
+            {/* 4. 다른 상태(state) 변경 테스트 버튼 */}
+            <div>
+                <p>다른 상태 값: {otherState.toString()}</p>
+                {/* 이 버튼을 누르면 App 컴포넌트 전체가 리렌더링 되지만, list가 안 바뀌었으므로 average는 계산되지 않는다. */}
+                <Button onClick={() => setOtherState(!otherState)}>다른 상태 변경하기 (리렌더링 유발)</Button>
+            </div>
+        </>
     )
 }
 

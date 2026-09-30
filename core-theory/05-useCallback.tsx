@@ -5,7 +5,7 @@
 // 즉, "한 번 만든 함수를 재사용 할 수 있도록 기억하는 기능"입니다.
 
 import { Button } from "@/components/ui"
-import { useCallback, useState, memo } from "react"
+import { useCallback, useState, memo, useMemo } from "react"
 
 // 컴포넌트가 다시 렌더링(re-render) 될 때마다 내부에 선언된 함수들도 새로 만들어집니다.
 // 리액트는 함수가 새로 만들어지면 "새로운 참조(reference)값"으로 인식하기 때문에,
