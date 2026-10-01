@@ -1,35 +1,23 @@
-import { Geist, Geist_Mono } from "next/font/google"
-
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+import { AppHeader } from "@/components/common"
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode
+    children: React.ReactNode
 }>) {
-  return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable
-      )}
-    >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="ko" suppressHydrationWarning className={cn("antialiased", "font-sans")}>
+            <body>
+                <ThemeProvider>
+                    <div className="flex min-h-screen flex-col gap-2 p-4">
+                        <AppHeader />
+                        <main className="h-[calc(100vh-4rem)] w-full">{children}</main>
+                    </div>
+                </ThemeProvider>
+            </body>
+        </html>
+    )
 }
