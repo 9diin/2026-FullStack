@@ -1,3 +1,6 @@
+export * from "./badge"
 export * from "./button"
 export * from "./tabs"
 export * from "./skeleton"
+export * from "./textarea"
+export * from "./separator"
