@@ -53,7 +53,10 @@ function AppContext() {
                     </Card>
                 </ContextLayout>
             </div>
-            <Separator />
+            <div className="flex flex-col gap-1">
+                <Separator />
+                <Separator />
+            </div>
             {/* 프롬프트 작성 영역 */}
             <div className="flex w-full flex-col gap-2">
                 <div className="flex w-full flex-wrap items-center gap-2 overflow-x-scroll">

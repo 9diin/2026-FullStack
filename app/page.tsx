@@ -1,5 +1,4 @@
 import { AppContext } from "@/components/common"
-import { Skeleton } from "@/components/ui"
 
 // [요구 사항]
 // ⭐️ 화면 명세서 => 기능 명세서 => 화면 설계서 => 컴포넌트 설계서 => 컴포넌트 구현

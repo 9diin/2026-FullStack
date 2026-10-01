@@ -29,7 +29,7 @@ export default function RootLayout({
         <html lang="ko" suppressHydrationWarning className={cn(paperlogy.variable, "antialiased", "font-sans")}>
             <body>
                 <ThemeProvider defaultTheme="dark">
-                    <div className="flex min-h-screen flex-col gap-2 p-4">
+                    <div className="flex min-h-screen flex-col gap-2 p-4 pt-2">
                         <AppHeader />
                         <main className="h-[calc(100vh-4rem)] w-full">{children}</main>
                     </div>

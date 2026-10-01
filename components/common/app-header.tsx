@@ -14,7 +14,7 @@ function AppHeader() {
             {/* 로고 영역 */}
             <div className="flex w-72 items-center gap-2">
                 <Image src="/icons/earth.svg" alt="@LOGO" width={24} height={24} />
-                <span className={lemon.className + " text-xl"}>I'deaverse</span>
+                <span className={lemon.className + " text-xl"}>I'deaverse ✌🏻</span>
             </div>
 
             <div className="flex flex-1 items-center justify-between">
