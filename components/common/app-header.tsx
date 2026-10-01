@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { Lemon } from "next/font/google"
+import { Comic_Neue } from "next/font/google"
 import { Tabs, TabsList, TabsTrigger, Button } from "../ui"
 
-const lemon = Lemon({
+const comicNeue = Comic_Neue({
     weight: "400",
     subsets: ["latin"],
     display: "swap",
@@ -13,8 +13,8 @@ function AppHeader() {
         <header className="flex w-full">
             {/* 로고 영역 */}
             <div className="flex w-72 items-center gap-2">
-                <Image src="/icons/earth.svg" alt="@LOGO" width={24} height={24} />
-                <span className={lemon.className + " text-xl"}>I'deaverse ✌🏻</span>
+                <Image src="/icons/earth.svg" alt="@LOGO" width={20} height={20} />
+                <span className={comicNeue.className + " text-xl"}>I'deaverse ✨</span>
             </div>
 
             <div className="flex flex-1 items-center justify-between">
