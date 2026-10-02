@@ -27,7 +27,7 @@ function RadialChart() {
     return (
         <Card className="flex flex-col">
             <CardContent className="flex flex-1 flex-col items-center pb-0">
-                <ChartContainer config={chartConfig} className="mx-auto aspect-square w-full max-w-[250px]">
+                <ChartContainer config={chartConfig} className="mx-auto -mt-4 aspect-square w-full max-w-62.5">
                     <RadialBarChart data={chartData} endAngle={180} innerRadius={80} outerRadius={110}>
                         <RadialBar dataKey="mobile" fill="var(--color-mobile)" stackId="a" cornerRadius={5} className="stroke-transparent stroke-2" />
                         <RadialBar dataKey="desktop" stackId="a" cornerRadius={5} fill="var(--color-desktop)" className="stroke-transparent stroke-2" />
@@ -52,17 +52,15 @@ function RadialChart() {
                         </PolarRadiusAxis>
                     </RadialBarChart>
                 </ChartContainer>
-                <div className="-mt-22 flex items-center gap-1 rounded-full bg-green-900/50 px-2 py-1">
+                <div className="-mt-26 flex items-center gap-1 rounded-full bg-green-900/50 px-2 py-1">
                     <BadgeCheck size={13} className="text-green-500" />
                     <span className="mt-px text-xs font-semibold text-green-500">서면 심사 통과 안정권 (상위 TOP 12%)</span>
                 </div>
             </CardContent>
-            <CardFooter>
-                <div className="flex w-full items-center justify-center gap-2 text-neutral-400">
-                    <span>심사 가이드 라인 v2026. 10</span>
-                    &middot;
-                    <span>최근 진단: 3분 전(v1.4)</span>
-                </div>
+            <CardFooter className="flex w-full items-center justify-center gap-1.5 py-2 text-neutral-400">
+                <span className="text-xs">심사 가이드 라인 v2026. 10</span>
+                &middot;
+                <span className="text-xs">최근 진단: 3분 전 (v1.4)</span>
             </CardFooter>
         </Card>
     )
