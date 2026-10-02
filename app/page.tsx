@@ -122,7 +122,7 @@ function Home() {
                             </p>
                         </div>
                         <Separator />
-                        <Card className="p-3">
+                        <Card className="bg-muted/30 p-3">
                             <div className="flex flex-col gap-1">
                                 <span className="text-xs font-medium text-green-500">핵심 타깃 페르소나</span>
                                 <p className="text-base font-medium">
