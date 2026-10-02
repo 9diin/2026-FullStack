@@ -1,6 +1,6 @@
 import { AppContext } from "@/components/common"
 import { Badge, Card, Separator, Skeleton } from "@/components/ui"
-import { ArrowRight, Bot, Check, ChevronRight, CircleAlert, CornerDownRight, TrendingUp } from "lucide-react"
+import { ArrowRight, Bot, Check, ChevronRight, CircleAlert, CircleArrowRight, CornerDownRight, TrendingUp } from "lucide-react"
 
 // [요구 사항]
 // ⭐️ 화면 명세서 => 기능 명세서 => 화면 설계서 => 컴포넌트 설계서 => 컴포넌트 구현
@@ -141,24 +141,28 @@ function Home() {
                         </Card>
                         <div className="flex flex-col gap-2">
                             <span className="font-semibold">&#8251; 검증된 3대 페인포인트 악순환 고리</span>
-                            <div className="grid grid-cols-3 gap-4">
-                                <Card className="gap-0 bg-muted/30 p-4">
+                            <div className="flex items-center gap-2">
+                                <Card className="w-full gap-0 bg-muted/30 p-4">
                                     <span className="text-neutral-400">단계 &#9312; 강제구매</span>
                                     <span className="text-base font-semibold">대용량 번들 포장</span>
                                     <p className="mt-2 text-xs text-neutral-400">소포장 부재로 묶음 채소 과대 구매</p>
                                 </Card>
-                                <Card className="gap-0 bg-muted/30 p-4">
+                                <CircleArrowRight className="min-w-4.5 text-neutral-400" />
+                                <Card className="w-full gap-0 bg-muted/30 p-4">
                                     <span className="text-neutral-400">단계 &#9313; 방치망각</span>
                                     <span className="text-base font-semibold">냉장고 재고 망각</span>
                                     <p className="mt-2 text-xs text-neutral-400">탐색 피로(일 평균 68분)로 방치</p>
                                 </Card>
-                                <Card className="gap-0 bg-muted/30 p-4">
+                                <CircleArrowRight className="min-w-4.5 text-neutral-400" />
+                                <Card className="w-full gap-0 bg-muted/30 p-4">
                                     <span className="text-neutral-400">단계 &#9314; 폐기손실</span>
                                     <span className="text-base font-semibold text-rose-400">음식물 쓰레기화</span>
                                     <p className="mt-2 text-xs text-neutral-400">가구당 월 4.8만원 직접 손실</p>
                                 </Card>
                             </div>
                         </div>
+                        <Separator />
+
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-1">
                                 <Bot size={18} />
