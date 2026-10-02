@@ -1,4 +1,5 @@
 import { AppContext } from "@/components/common"
+import { RadialChart } from "@/components/main"
 import { Badge, Card, Separator, Skeleton } from "@/components/ui"
 import { ArrowRight, Bot, Check, ChevronRight, CircleAlert, CircleArrowRight, CornerDownRight, TrendingUp } from "lucide-react"
 
@@ -185,7 +186,82 @@ function Home() {
                         </div>
                     </Card>
                     {/* AI 분석 레포트 영역 */}
-                    <div className="w-2/5"></div>
+                    <Card className="w-2/5 gap-4 p-4">
+                        <div className="flex flex-col gap-2">
+                            <span className="text-xl font-semibold">AI 정밀 적합도 진단 보고서</span>
+                            <p className="text-neutral-400">
+                                단순 임의 점수가 아닌, 중소벤처기업부 TIPS 공고 심사 평가지표 12개 항목 및{" "}
+                                <strong className="text-white">2,400개 합격 사업계획서 임베딩 벡터</strong>와 비교 분석된 정량적 데이터입니다.
+                            </p>
+                            <RadialChart />
+                        </div>
+                        <Separator />
+                        <div className="flex flex-col gap-2">
+                            <span className="font-semibold">PSST 4대 영역별 배점 스코어카드</span>
+                            <div className="flex flex-col gap-2 pb-4">
+                                <Card className="flex-row items-center justify-between p-2">
+                                    <div className="flex items-start gap-1">
+                                        <Badge className="mt-0.5 aspect-square rounded-sm bg-violet-900/50 font-semibold text-violet-500">P</Badge>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">문제인식 (내재적 관점 & 외재적 관점)</span>
+                                            <span className="text-xs text-neutral-400">Pain Point 데이터 실증 완료</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs font-medium">A</span>
+                                        &middot;
+                                        <span className="text-xs font-medium">81점</span>
+                                    </div>
+                                </Card>
+                                <Card className="flex-row items-center justify-between p-2">
+                                    <div className="flex items-start gap-1">
+                                        <Badge className="mt-0.5 aspect-square rounded-sm bg-violet-900/50 font-semibold text-violet-500">S</Badge>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">실현방안 (기술 구체성 및 MVP)</span>
+                                            <span className="text-xs text-neutral-400">알골즘 및 핵심 지표 설정</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs font-medium">S</span>
+                                        &middot;
+                                        <span className="text-xs font-medium">81점</span>
+                                    </div>
+                                </Card>
+                                <Card className="flex-row items-center justify-between p-2">
+                                    <div className="flex items-start gap-1">
+                                        <Badge className="mt-0.5 aspect-square rounded-sm bg-violet-900/50 font-semibold text-violet-500">P</Badge>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">성장전략 (시장 진입 전략)</span>
+                                            <span className="text-xs text-neutral-400">BM 수수료 모델 1문장 보완 필요</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs font-medium">A</span>
+                                        &middot;
+                                        <span className="text-xs font-medium">81점</span>
+                                    </div>
+                                </Card>
+                                <Card className="flex-row items-center justify-between p-2">
+                                    <div className="flex items-start gap-1">
+                                        <Badge className="mt-0.5 aspect-square rounded-sm bg-violet-900/50 font-semibold text-violet-500">P</Badge>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">팀 구성 (기술 개발 역량)</span>
+                                            <span className="text-xs text-neutral-400">Vision AI 전공 인력 프로필 양호</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs font-medium">A</span>
+                                        &middot;
+                                        <span className="text-xs font-medium">81점</span>
+                                    </div>
+                                </Card>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
             </div>
         </div>

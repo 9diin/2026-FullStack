@@ -1,6 +1,7 @@
 export * from "./badge"
 export * from "./button"
 export * from "./card"
+export * from "./chart"
 export * from "./separator"
 export * from "./skeleton"
 export * from "./tabs"
