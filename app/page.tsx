@@ -1,6 +1,6 @@
 import { AppContext } from "@/components/common"
 import { RadialChart } from "@/components/main"
-import { Badge, Card, Separator, Skeleton } from "@/components/ui"
+import { Badge, Card, Separator } from "@/components/ui"
 import { ArrowRight, Bot, Check, ChevronRight, CircleAlert, CircleArrowRight, CornerDownRight, TrendingUp } from "lucide-react"
 
 // [요구 사항]
