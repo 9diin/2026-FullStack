@@ -104,7 +104,7 @@ function Home() {
                 </div>
                 <div className="flex w-full gap-4">
                     {/* 문제인식 - 솔루션 - 성장전략 - 팀 빌딩 선택 후 보이는 콘텐츠 영역 */}
-                    <Card className="w-3/5 p-3">
+                    <Card className="w-3/5 p-4">
                         <div>
                             <div className="flex items-start justify-between">
                                 <h2 className="text-xl font-semibold">1. 문제인식 (Problem)</h2>
@@ -122,7 +122,7 @@ function Home() {
                             </p>
                         </div>
                         <Separator />
-                        <Card className="bg-muted/30 p-3">
+                        <Card className="bg-muted/30 p-4">
                             <div className="flex flex-col gap-1">
                                 <span className="text-xs font-medium text-green-500">핵심 타깃 페르소나</span>
                                 <p className="text-base font-medium">
