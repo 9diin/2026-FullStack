@@ -1,6 +1,6 @@
 import { AppContext } from "@/components/common"
 import { Badge, Card, Separator, Skeleton } from "@/components/ui"
-import { ArrowRight, Check, ChevronRight, CornerDownRight } from "lucide-react"
+import { ArrowRight, Bot, Check, ChevronRight, CircleAlert, CornerDownRight, TrendingUp } from "lucide-react"
 
 // [요구 사항]
 // ⭐️ 화면 명세서 => 기능 명세서 => 화면 설계서 => 컴포넌트 설계서 => 컴포넌트 구현
@@ -9,7 +9,7 @@ function Home() {
         <div className="flex h-full w-full gap-2">
             <AppContext />
             {/* 아이디어 구조화 / 사업계획서 도출 */}
-            <div className="flex flex-1 flex-col gap-4 rounded-md border border-card bg-card/50 bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[16px_16px] p-4 text-card-foreground">
+            <div className="flex flex-1 flex-col gap-4 overflow-y-scroll rounded-md border border-card bg-card/50 bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[16px_16px] p-4 text-card-foreground">
                 {/* 콘텐츠 영역 */}
                 <div>
                     <div className="flex items-center gap-1">
@@ -21,7 +21,7 @@ function Home() {
                         1인 가구 및 직장인을 위한 스마트 냉장고 잔여 식재료 기반 실시간 레시피 생성 및 자동 장보기 연동 서비스
                     </h1>
                 </div>
-                <Card className="h-29.25 flex-row px-4">
+                <Card className="h-29.25 min-h-29.25 flex-row px-4">
                     {/* 차트 & 점수 표기 영역 */}
                     <div>
                         {/* 차트 */}
@@ -37,7 +37,7 @@ function Home() {
                     <Separator orientation="vertical" />
                     {/* 문제인식 - 솔루션 - 성장전략 - 팀 빌딩 선택 카드 영역 */}
                     <div className="flex flex-1 items-center justify-between">
-                        <Card className="w-full gap-2 p-3 pb-1.25">
+                        <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1">
                                     <Badge className="aspect-square rounded-sm bg-green-900/50 font-semibold text-green-500">P</Badge>
@@ -52,48 +52,48 @@ function Home() {
                             </div>
                         </Card>
                         <ArrowRight className="mx-1.5 w-20 text-neutral-400" />
-                        <Card className="w-full gap-2 p-3 pb-1.25">
+                        <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1">
-                                    <Badge className="aspect-square rounded-sm bg-green-900/50 font-semibold text-green-500">P</Badge>
-                                    <span className="font-medium">문제인식</span>
+                                    <Badge className="aspect-square rounded-sm bg-amber-900/50 font-semibold text-amber-500">S</Badge>
+                                    <span className="font-medium">실현가능성</span>
                                 </div>
-                                <span className="font-semibold text-green-500">92점</span>
+                                <span className="font-semibold text-amber-500">80점</span>
                             </div>
-                            <p className="-my-1 text-xs text-neutral-400">통계청 800만 가구 데이터 ...</p>
+                            <p className="-my-1 text-xs text-neutral-400">비전 AI 모델 및 온디바이스 ...</p>
                             <div className="flex items-center gap-1">
-                                <Check className="w-3 text-green-500" />
-                                <span className="text-[10px] text-green-500">논리 구조 완벽</span>
+                                <TrendingUp className="w-3 text-amber-500" />
+                                <span className="text-[10px] text-amber-500">기술 타당성 높음</span>
                             </div>
                         </Card>
                         <ArrowRight className="mx-1.5 w-20 text-neutral-400" />
-                        <Card className="w-full gap-2 p-3 pb-1.25">
+                        <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1">
-                                    <Badge className="aspect-square rounded-sm bg-green-900/50 font-semibold text-green-500">P</Badge>
-                                    <span className="font-medium">문제인식</span>
+                                    <Badge className="aspect-square rounded-sm bg-rose-900/50 font-semibold text-rose-500">P</Badge>
+                                    <span className="font-medium">성장전략</span>
                                 </div>
-                                <span className="font-semibold text-green-500">92점</span>
+                                <span className="font-semibold text-rose-500">65점</span>
                             </div>
-                            <p className="-my-1 text-xs text-neutral-400">통계청 800만 가구 데이터 ...</p>
+                            <p className="-my-1 text-xs text-neutral-400">커머스 제휴 수수료 구조 ...</p>
                             <div className="flex items-center gap-1">
-                                <Check className="w-3 text-green-500" />
-                                <span className="text-[10px] text-green-500">논리 구조 완벽</span>
+                                <CircleAlert className="w-3 text-rose-500" />
+                                <span className="text-[10px] text-rose-500">보완 권고 레이어</span>
                             </div>
                         </Card>
                         <ArrowRight className="mx-1.5 w-20 text-neutral-400" />
-                        <Card className="w-full gap-2 p-3 pb-1.25">
+                        <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1">
-                                    <Badge className="aspect-square rounded-sm bg-green-900/50 font-semibold text-green-500">P</Badge>
-                                    <span className="font-medium">문제인식</span>
+                                    <Badge className="aspect-square rounded-sm bg-sky-900/50 font-semibold text-sky-500">P</Badge>
+                                    <span className="font-medium">팀구성</span>
                                 </div>
-                                <span className="font-semibold text-green-500">92점</span>
+                                <span className="font-semibold text-sky-500">75점</span>
                             </div>
-                            <p className="-my-1 text-xs text-neutral-400">통계청 800만 가구 데이터 ...</p>
+                            <p className="-my-1 text-xs text-neutral-400">AI 연구인력 중원 계획 정비 ...</p>
                             <div className="flex items-center gap-1">
-                                <Check className="w-3 text-green-500" />
-                                <span className="text-[10px] text-green-500">논리 구조 완벽</span>
+                                <Check className="w-3 text-sky-500" />
+                                <span className="text-[10px] text-sky-500">요건 충족</span>
                             </div>
                         </Card>
                     </div>
@@ -104,7 +104,7 @@ function Home() {
                 </div>
                 <div className="flex w-full gap-4">
                     {/* 문제인식 - 솔루션 - 성장전략 - 팀 빌딩 선택 후 보이는 콘텐츠 영역 */}
-                    <Card className="w-3/5 p-4">
+                    <Card className="w-3/5 gap-4 p-4">
                         <div>
                             <div className="flex items-start justify-between">
                                 <h2 className="text-xl font-semibold">1. 문제인식 (Problem)</h2>
@@ -139,6 +139,46 @@ function Home() {
                                 </Badge>
                             </div>
                         </Card>
+                        <div className="flex flex-col gap-2">
+                            <span className="font-semibold">&#8251; 검증된 3대 페인포인트 악순환 고리</span>
+                            <div className="grid grid-cols-3 gap-4">
+                                <Card className="gap-0 bg-muted/30 p-4">
+                                    <span className="text-neutral-400">단계 &#9312; 강제구매</span>
+                                    <span className="text-base font-semibold">대용량 번들 포장</span>
+                                    <p className="mt-2 text-xs text-neutral-400">소포장 부재로 묶음 채소 과대 구매</p>
+                                </Card>
+                                <Card className="gap-0 bg-muted/30 p-4">
+                                    <span className="text-neutral-400">단계 &#9313; 방치망각</span>
+                                    <span className="text-base font-semibold">냉장고 재고 망각</span>
+                                    <p className="mt-2 text-xs text-neutral-400">탐색 피로(일 평균 68분)로 방치</p>
+                                </Card>
+                                <Card className="gap-0 bg-muted/30 p-4">
+                                    <span className="text-neutral-400">단계 &#9314; 폐기손실</span>
+                                    <span className="text-base font-semibold text-rose-400">음식물 쓰레기화</span>
+                                    <p className="mt-2 text-xs text-neutral-400">가구당 월 4.8만원 직접 손실</p>
+                                </Card>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-1">
+                                <Bot size={18} />
+                                <span className="mt-0.5 font-semibold">실시간 AI 검증 피드백 코칭</span>
+                            </div>
+                            <p className="text-justify text-neutral-400">
+                                냉장고 사진&middot;바코드&middot;수기 입력으로 식재료와 유통기한을 구조화하고, 남은 재료를 우선 소진하는 15분 맞춤형 레시피를
+                                실시간 추천합니다. 부족한 필수 식재료는 1시간 퀵커머스 장바구니로 자동 큐레이션 연결하며, 사용자
+                                알레르기&middot;칼로리&middot;보유 조리도구 조건까지 반영합니다. 초기 사용자 100명 인터뷰를 통해 문제와 추천 품질을 검증하고,
+                                출시 30일 내 재사용률 40% 달성을 핵심 실행 지표로 설정합니다. MVP 단계에서 식재료 인식 정확도와 주문 전환율을 주 단위로 측정해
+                                서비스 타당성을 입증합니다.
+                            </p>
+                            <div className="flex items-start gap-1">
+                                <CornerDownRight />
+                                <p className="mt-1.25 text-justify font-medium">
+                                    "15분 조리 시간 및 30일 내 재사용률 40% 수치 제시는 매우 우수합니다. 단, 비즈니스 모델(수익화)과의 직접 연계를 1문장 더
+                                    보강하면 합격 안정권(90점대) 진입이 예상됩니다.
+                                </p>
+                            </div>
+                        </div>
                     </Card>
                     {/* AI 분석 레포트 영역 */}
                     <div className="w-2/5"></div>
