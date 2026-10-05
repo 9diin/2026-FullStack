@@ -59,7 +59,7 @@ function AppContext() {
             </div>
             {/* 프롬프트 작성 영역 */}
             <div className="flex w-full flex-col gap-2">
-                <div className="flex w-full flex-wrap items-center gap-2 overflow-x-scroll">
+                <div className="flex w-full flex-wrap items-center gap-2">
                     <AssetCard type="PDF" name="시장정보 요구사항 인터뷰" />
                     <AssetCard type="PPTX" name="사업계획서 발표자료" />
                 </div>

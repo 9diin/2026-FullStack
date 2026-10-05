@@ -1,5 +1,5 @@
 import { Check } from "lucide-react"
-import { Badge } from "../ui"
+import { Badge } from "@/components/ui"
 
 function ContextLayout({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
     return (

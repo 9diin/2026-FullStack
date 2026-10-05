@@ -1,4 +1,4 @@
-import { Badge } from "../ui"
+import { Badge } from "@/components/ui"
 
 function AssetCard({ type, name }: { type: string; name: string }) {
     return (
