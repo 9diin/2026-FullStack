@@ -17,8 +17,13 @@ import {
     Separator,
 } from "@/components/ui"
 import { Eye, EyeOff } from "lucide-react"
+import { toast } from "../ui/toast"
+import { useRouter } from "next/navigation"
 
 function SignUpForm() {
+    const router = useRouter()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmPassword, setConfirmPassword] = useState<string>("")
@@ -35,8 +40,55 @@ function SignUpForm() {
     const isEmailValid = /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email.trim())
     const isPasswordValid = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)
     const doPasswordMatch = password === confirmPassword && confirmPassword.length > 2
+    const areRequiredTermsAgreed = termsAgreed && privacyAgreed
     const areAllAgreed = termsAgreed && privacyAgreed && marketingAgreed
-    const canSubmit = isEmailValid && isPasswordValid
+    const canSubmit = isEmailValid && isPasswordValid && doPasswordMatch && areRequiredTermsAgreed
+
+    // 필수 조건을 재검증한 뒤 API 비동기 가입을 실행
+    const handleSubmit = async () => {
+        setIsLoading(true)
+
+        if (!canSubmit) {
+            toast.add({
+                title: "입력 정보를 확인하고 필수 약관에 동의해 주세요.",
+            })
+            return
+        }
+
+        // 실제 DB에 저장될 데이터만 추출
+        const data = {
+            email,
+            password,
+            agreements: {
+                terms: termsAgreed,
+                privacy: privacyAgreed,
+                marketing: marketingAgreed,
+            },
+        }
+
+        // 회원가입 로직 동작
+        try {
+            // 1) signUp이라는 함수는 실제 회원가입 API를 담당
+            // 2) 회원가입이 올바르게 동작하면, 서버에서 응답 값을 보내준다.
+            // 3) const res = 응답 값이 담긴다. => HTTP STATUS (생성이니까 201)
+            // 4) 백엔드 서버 측에서 보내주는 응답 값 구조에 다르겠지만,
+            // {
+            //    data: {},
+            //    status: 201,
+            // }
+            const res = await signUp(data)
+
+            if (res.status === 201 && res.data) {
+                toast.add({
+                    title: "회원가입을 성공하였습니다.",
+                })
+                router.push("/sign-in")
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <Card>
@@ -178,6 +230,7 @@ function SignUpForm() {
                                 type="submit"
                                 disabled={!canSubmit}
                                 className="bg-linear-to-br from-blue-600 via-purple-500 to-pink-500 font-medium text-white"
+                                onClick={handleSubmit}
                             >
                                 회원가입
                             </Button>

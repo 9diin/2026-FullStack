@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { AppHeader } from "@/components/common"
+import { Toaster } from "@/components/ui/toast"
 
 const paperlogy = localFont({
     src: [
@@ -33,6 +34,7 @@ export default function RootLayout({
                         <AppHeader />
                         <main className="h-[calc(100vh-4rem)] w-full">{children}</main>
                     </div>
+                    <Toaster />
                 </ThemeProvider>
             </body>
         </html>
