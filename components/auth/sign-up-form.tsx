@@ -16,7 +16,7 @@ import {
     Input,
     Separator,
 } from "@/components/ui"
-import { Eye } from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
 
 function SignUpForm() {
     const [email, setEmail] = useState<string>("")
@@ -24,9 +24,19 @@ function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = useState<string>("")
     const [authCode, setAuthCode] = useState<string>("") // 인증번호
 
+    const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false)
+
     const [termsAgreed, setTermsAgreed] = useState<boolean>(false) // 서비스 이용약관 동의
     const [privacyAgreed, setPrivacyAgreed] = useState<boolean>(false) // 개인정보 처리방침 동의
     const [marketingAgreed, setMarketingAgreed] = useState<boolean>(false) // 마케팅 광고 수신 동의
+
+    // 입력 형식과 필수 약관 동의 여부를 계산해 가입 기능 여부를 결정
+    const isEmailValid = /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email.trim())
+    const isPasswordValid = /^(?=.[A-Za-z])(?=.\d).{8,}$/.test(password)
+    const doPasswordMatch = password === confirmPassword && confirmPassword.length > 2
+    const areAllAgreed = termsAgreed && privacyAgreed && marketingAgreed
+    const canSubmit = isEmailValid && isPasswordValid
 
     return (
         <Card>
@@ -52,6 +62,7 @@ function SignUpForm() {
                                     인증번호 발송
                                 </Button>
                             </div>
+                            {!isEmailValid && <span className="text-xs text-destructive">올바른 이메일 형식을 입력해주세요.</span>}
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="email">인증번호</FieldLabel>
@@ -74,34 +85,44 @@ function SignUpForm() {
                             <div className="relative">
                                 <Input
                                     id="password"
-                                    type="password"
+                                    type={isPasswordVisible ? "text" : "password"}
                                     required
                                     placeholder="비밀번호를 입력하세요."
                                     value={password}
-                                    onChange={(event) => setPassword(event?.target.value)}
+                                    onChange={(event) => setPassword(event.target.value)}
                                 />
-                                <Button size="icon" variant="ghost" className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400">
-                                    <Eye />
+                                <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400"
+                                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                                >
+                                    {isPasswordVisible ? <EyeOff /> : <Eye />}
                                 </Button>
                             </div>
-                            <span className="text-xs text-neutral-400">영문과 숫자를 포함해 8자 이상 입력해 주세요.</span>
+                            {!isPasswordValid && <span className="text-xs text-destructive">영문과 숫자를 포함해 8자 이상 입력해 주세요.</span>}
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="password">비밀번호 확인</FieldLabel>
                             <div className="relative">
                                 <Input
                                     id="password"
-                                    type="password"
+                                    type={isConfirmPasswordVisible ? "text" : "password"}
                                     required
                                     placeholder="비밀번호를 한 번 더 입력하세요."
                                     value={confirmPassword}
                                     onChange={(event) => setConfirmPassword(event?.target.value)}
                                 />
-                                <Button size="icon" variant="ghost" className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400">
-                                    <Eye />
+                                <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400"
+                                    onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                                >
+                                    {isConfirmPasswordVisible ? <EyeOff /> : <Eye />}
                                 </Button>
                             </div>
-                            <span className="text-xs text-neutral-400">비밀번호를 다시 입력해 주세요.</span>
+                            {!doPasswordMatch && <span className="text-xs text-destructive">비밀번호가 일치하지 않습니다.</span>}
                         </Field>
                         <div className="mb-2 flex flex-col gap-1">
                             <Separator />
@@ -116,7 +137,14 @@ function SignUpForm() {
                             </FieldLabel>
                             <div className="rounded-md border p-4">
                                 <div className="flex items-center gap-2">
-                                    <Checkbox />
+                                    <Checkbox
+                                        checked={areAllAgreed}
+                                        onCheckedChange={(checked) => {
+                                            setTermsAgreed(checked)
+                                            setPrivacyAgreed(checked)
+                                            setMarketingAgreed(checked)
+                                        }}
+                                    />
                                     <span>전체 동의</span>
                                 </div>
                                 <Separator className="my-3" />
@@ -146,7 +174,11 @@ function SignUpForm() {
                             </div>
                         </Field>
                         <Field>
-                            <Button type="submit" className="bg-linear-to-br from-blue-600 via-purple-500 to-pink-500 font-medium text-white">
+                            <Button
+                                type="submit"
+                                disabled={!canSubmit}
+                                className="bg-linear-to-br from-blue-600 via-purple-500 to-pink-500 font-medium text-white"
+                            >
                                 회원가입
                             </Button>
                             <FieldDescription className="text-center">
