@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import {
     Button,
     Card,
@@ -16,6 +19,15 @@ import {
 import { Eye } from "lucide-react"
 
 function SignUpForm() {
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [confirmPassword, setConfirmPassword] = useState<string>("")
+    const [authCode, setAuthCode] = useState<string>("") // 인증번호
+
+    const [termsAgreed, setTermsAgreed] = useState<boolean>(false) // 서비스 이용약관 동의
+    const [privacyAgreed, setPrivacyAgreed] = useState<boolean>(false) // 개인정보 처리방침 동의
+    const [marketingAgreed, setMarketingAgreed] = useState<boolean>(false) // 마케팅 광고 수신 동의
+
     return (
         <Card>
             <CardHeader>
@@ -28,7 +40,14 @@ function SignUpForm() {
                         <Field>
                             <FieldLabel htmlFor="email">이메일</FieldLabel>
                             <div className="flex items-center gap-2">
-                                <Input id="email" type="email" placeholder="이메일을 입력하세요." required />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="이메일을 입력하세요."
+                                    value={email}
+                                    onChange={(event) => setEmail(event?.target.value)}
+                                    required
+                                />
                                 <Button variant="outline" className="text-neutral-400">
                                     인증번호 발송
                                 </Button>
@@ -37,7 +56,14 @@ function SignUpForm() {
                         <Field>
                             <FieldLabel htmlFor="email">인증번호</FieldLabel>
                             <div className="flex items-center gap-2">
-                                <Input id="email" type="email" placeholder="인증번호를 입력하세요." required />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="인증번호를 입력하세요."
+                                    value={authCode}
+                                    onChange={(event) => setAuthCode(event?.target.value)}
+                                    required
+                                />
                                 <Button variant="outline" className="text-neutral-400">
                                     인증번호 확인
                                 </Button>
@@ -46,7 +72,14 @@ function SignUpForm() {
                         <Field>
                             <FieldLabel htmlFor="password">비밀번호</FieldLabel>
                             <div className="relative">
-                                <Input id="password" type="password" required placeholder="비밀번호를 입력하세요." />
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    required
+                                    placeholder="비밀번호를 입력하세요."
+                                    value={password}
+                                    onChange={(event) => setPassword(event?.target.value)}
+                                />
                                 <Button size="icon" variant="ghost" className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400">
                                     <Eye />
                                 </Button>
@@ -56,7 +89,14 @@ function SignUpForm() {
                         <Field>
                             <FieldLabel htmlFor="password">비밀번호 확인</FieldLabel>
                             <div className="relative">
-                                <Input id="password" type="password" required placeholder="비밀번호를 한 번 더 입력하세요." />
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    required
+                                    placeholder="비밀번호를 한 번 더 입력하세요."
+                                    value={confirmPassword}
+                                    onChange={(event) => setConfirmPassword(event?.target.value)}
+                                />
                                 <Button size="icon" variant="ghost" className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400">
                                     <Eye />
                                 </Button>
@@ -82,21 +122,21 @@ function SignUpForm() {
                                 <Separator className="my-3" />
                                 <div className="flex flex-col gap-3">
                                     <div className="flex items-center gap-2">
-                                        <Checkbox />
+                                        <Checkbox onCheckedChange={(checked) => setTermsAgreed(checked)} />
                                         <div className="flex items-center gap-1">
                                             <span className="text-neutral-400">(필수)</span>
                                             <span>서비스 이용약관 동의</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Checkbox />
+                                        <Checkbox onCheckedChange={(checked) => setPrivacyAgreed(checked)} />
                                         <div className="flex items-center gap-1">
                                             <span className="text-neutral-400">(필수)</span>
                                             <span>개인정보 처리방침 동의</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Checkbox />
+                                        <Checkbox onCheckedChange={(checked) => setMarketingAgreed(checked)} />
                                         <div className="flex items-center gap-1">
                                             <span className="text-neutral-400">(선택)</span>
                                             <span>마케팅 정보 수신 동의</span>
