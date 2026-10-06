@@ -33,7 +33,7 @@ function SignUpForm() {
 
     // 입력 형식과 필수 약관 동의 여부를 계산해 가입 기능 여부를 결정
     const isEmailValid = /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email.trim())
-    const isPasswordValid = /^(?=.[A-Za-z])(?=.\d).{8,}$/.test(password)
+    const isPasswordValid = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password)
     const doPasswordMatch = password === confirmPassword && confirmPassword.length > 2
     const areAllAgreed = termsAgreed && privacyAgreed && marketingAgreed
     const canSubmit = isEmailValid && isPasswordValid
