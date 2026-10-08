@@ -1,6 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+
 import {
     Button,
     Card,
@@ -18,7 +20,7 @@ import {
 } from "@/components/ui"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from "../ui/toast"
-import { useRouter } from "next/navigation"
+import { signUp } from "@/api/auth"
 
 function SignUpForm() {
     const router = useRouter()
@@ -46,47 +48,35 @@ function SignUpForm() {
 
     // 필수 조건을 재검증한 뒤 API 비동기 가입을 실행
     const handleSubmit = async () => {
-        setIsLoading(true)
-
         if (!canSubmit) {
             toast.add({
                 title: "입력 정보를 확인하고 필수 약관에 동의해 주세요.",
             })
             return
         }
+        setIsLoading(true)
 
-        // 실제 DB에 저장될 데이터만 추출
-        const data = {
-            email,
-            password,
-            agreements: {
-                terms: termsAgreed,
-                privacy: privacyAgreed,
-                marketing: marketingAgreed,
-            },
-        }
-
-        // 회원가입 로직 동작
         try {
-            // 1) signUp이라는 함수는 실제 회원가입 API를 담당
-            // 2) 회원가입이 올바르게 동작하면, 서버에서 응답 값을 보내준다.
-            // 3) const res = 응답 값이 담긴다. => HTTP STATUS (생성이니까 201)
-            // 4) 백엔드 서버 측에서 보내주는 응답 값 구조에 다르겠지만,
-            // {
-            //    data: {},
-            //    status: 201,
-            // }
-            const res = await signUp(data)
+            const res = await signUp({ email, password, terms_agreed: termsAgreed, privacy_agreed: privacyAgreed, marketing_agreed: marketingAgreed })
 
-            if (res.status === 201 && res.data) {
+            console.log(res)
+
+            if (res.status === 201) {
                 toast.add({
-                    title: "회원가입을 성공하였습니다.",
+                    title: res.message,
                 })
                 router.push("/sign-in")
-                setIsLoading(false)
             }
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            console.error("회원가입 실패:", error)
+
+            // 4. 에러 메시지 토스트 출력 (백엔드 에러 메시지 우선 노출)
+            toast.add({
+                title: error.message || "회원가입 중 오류가 발생했습니다.",
+            })
+        } finally {
+            // 5. 성공하든 실패하든 로딩 상태 해제
+            setIsLoading(false)
         }
     }
 
@@ -97,7 +87,12 @@ function SignUpForm() {
                 <CardDescription>비즈니스의 시작점, 회원가입하고 아이디어를 펼쳐보세요.</CardDescription>
             </CardHeader>
             <CardContent>
-                <form>
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault()
+                        void handleSubmit()
+                    }}
+                >
                     <FieldGroup>
                         <Field>
                             <FieldLabel htmlFor="email">이메일</FieldLabel>
@@ -110,7 +105,7 @@ function SignUpForm() {
                                     onChange={(event) => setEmail(event?.target.value)}
                                     required
                                 />
-                                <Button variant="outline" className="text-neutral-400">
+                                <Button type="button" variant="outline" className="text-neutral-400">
                                     인증번호 발송
                                 </Button>
                             </div>
@@ -127,7 +122,7 @@ function SignUpForm() {
                                     onChange={(event) => setAuthCode(event?.target.value)}
                                     required
                                 />
-                                <Button variant="outline" className="text-neutral-400">
+                                <Button type="button" variant="outline" className="text-neutral-400">
                                     인증번호 확인
                                 </Button>
                             </div>
@@ -144,6 +139,7 @@ function SignUpForm() {
                                     onChange={(event) => setPassword(event.target.value)}
                                 />
                                 <Button
+                                    type="button"
                                     size="icon"
                                     variant="ghost"
                                     className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400"
@@ -166,6 +162,7 @@ function SignUpForm() {
                                     onChange={(event) => setConfirmPassword(event?.target.value)}
                                 />
                                 <Button
+                                    type="button"
                                     size="icon"
                                     variant="ghost"
                                     className="absolute top-1/2 right-1 -translate-y-1/2 text-neutral-400"
@@ -228,9 +225,8 @@ function SignUpForm() {
                         <Field>
                             <Button
                                 type="submit"
-                                disabled={!canSubmit}
+                                disabled={!canSubmit || isLoading}
                                 className="bg-linear-to-br from-blue-600 via-purple-500 to-pink-500 font-medium text-white"
-                                onClick={handleSubmit}
                             >
                                 회원가입
                             </Button>

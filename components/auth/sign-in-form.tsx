@@ -1,6 +1,42 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Field, FieldDescription, FieldGroup, FieldLabel, Input } from "@/components/ui"
+import { signIn } from "@/api/auth"
+import { toast } from "../ui/toast"
 
 function SignInForm() {
+    const router = useRouter()
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+
+    // 필수 조건을 재검증한 뒤 API 비동기 가입을 실행
+    const handleSubmit = async () => {
+        try {
+            const res = await signIn({ email, password })
+
+            console.log(res)
+
+            // res가 조회되는 데이터를 참조하여 조건을 바꿔준다.
+            // Zustand or Jotai에 유저 정보를 저장 및 access_token도 저장한다.
+
+            if (res.status === 201) {
+                toast.add({
+                    title: res.message,
+                })
+                router.push("/")
+            }
+        } catch (error: any) {
+            console.error("로그인 실패:", error)
+
+            // 4. 에러 메시지 토스트 출력 (백엔드 에러 메시지 우선 노출)
+            toast.add({
+                title: error.message || "회원가입 중 오류가 발생했습니다.",
+            })
+        }
+    }
+
     return (
         <Card>
             <CardHeader>
