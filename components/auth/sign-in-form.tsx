@@ -164,7 +164,7 @@ function SignInForm() {
                         </Field>
                         <Field>
                             <Button type="submit" className="bg-linear-to-br from-blue-600 via-purple-500 to-pink-500 font-medium text-white">
-                                로그인
+                                {isLoading ? "로그인 중..." : "로그인"}
                             </Button>
                             <Button variant="outline" type="button">
                                 Google로 로그인
