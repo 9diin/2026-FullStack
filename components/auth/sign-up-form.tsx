@@ -67,7 +67,7 @@ function SignUpForm() {
                 })
                 router.push("/sign-in")
             }
-        } catch (error: any) {
+        } catch (error: any) { 
             console.error("회원가입 실패:", error)
 
             // 4. 에러 메시지 토스트 출력 (백엔드 에러 메시지 우선 노출)

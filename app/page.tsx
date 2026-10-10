@@ -16,7 +16,7 @@ function Home() {
                     <div>
                         <div className="flex items-center gap-1">
                             <span className="text-[10px] text-neutral-400">프로젝트 워크스페이스</span>
-                            <ChevronRight className="w-4 text-neutral-400" />
+                            <ChevronRight className="w-4 text-neutral-400" /> 
                             <span className="text-[10px] text-violet-400">PSST 프레임워크 구조화 진단</span>
                         </div>
                         <h1 className="text-2xl font-bold">
@@ -72,7 +72,7 @@ function Home() {
                             <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-1">
-                                        <Badge className="aspect-square rounded-sm bg-rose-900/50 font-semibold text-rose-500">P</Badge>
+                                        <Badge className="aspect-square rounded-sm bg-rose-900/50 font-semibold text-rose-500">S</Badge>
                                         <span className="font-medium">성장전략</span>
                                     </div>
                                     <span className="font-semibold text-rose-500">65점</span>
@@ -87,7 +87,7 @@ function Home() {
                             <Card className="w-full gap-2 bg-muted/30 p-3 pb-1.25">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-1">
-                                        <Badge className="aspect-square rounded-sm bg-sky-900/50 font-semibold text-sky-500">P</Badge>
+                                        <Badge className="aspect-square rounded-sm bg-sky-900/50 font-semibold text-sky-500">T</Badge>
                                         <span className="font-medium">팀구성</span>
                                     </div>
                                     <span className="font-semibold text-sky-500">75점</span>
