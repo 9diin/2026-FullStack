@@ -133,7 +133,7 @@ function SignInForm() {
                 <CardDescription>비즈니스의 시작점, 로그인하고 아이디어를 펼쳐보세요.</CardDescription>
             </CardHeader>
             <CardContent>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <FieldGroup>
                         <Field>
                             <FieldLabel htmlFor="email">이메일</FieldLabel>
