@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, type SubmitEvent } from "react"
 import { useRouter } from "next/navigation"
+import { useState, type SubmitEvent } from "react"
+import { useAuthStore } from "@/store/useAuthStore"
+
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Field, FieldDescription, FieldGroup, FieldLabel, Input } from "@/components/ui"
 import { signIn } from "@/api/auth"
 import { toast } from "../ui/toast"
-import { useAuthStore } from "@/store/useAuthStore"
 
 function SignInForm() {
     const router = useRouter()
